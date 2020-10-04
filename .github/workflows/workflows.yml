@@ -1,6 +1,10 @@
 name: my actions
 
-on: [ push ]
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: 0 19 * * * #runs at 19:00 UTC everyday
 
 jobs:
   build:
@@ -8,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: '3.x'
+        python-version: 3.x
 
     steps:
       - uses: actions/checkout@v2
@@ -30,4 +34,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: pthome 签到
+        run: |
+          python pthome.py
 

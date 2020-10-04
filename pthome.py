@@ -1,4 +1,4 @@
-from pip._vendor import requests
+import requests
 
 
 def main():
@@ -9,4 +9,9 @@ def main():
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36',
     }
     response = requests.get(url, headers=headers)
+    print(response.status_code)
     print(response.text)
+    print('finish')
+
+if __name__ == "__main__":
+    main()
