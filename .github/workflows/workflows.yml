@@ -2,7 +2,7 @@ name: my actions
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   schedule:
     - cron: 0 19 * * * #runs at 19:00 UTC everyday
 
