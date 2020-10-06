@@ -1,10 +1,8 @@
 name: my actions
 
 on:
-  push:
-    branches: [ main ]
-  schedule:
-    - cron: 0 19 * * * #runs at 19:00 UTC everyday
+  watch:
+    types: [ started ]
 
 jobs:
   build:
@@ -17,21 +15,42 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-#      - name: Cache pip
-#        uses: actions/cache@v2
-#        with:
-#          # This path is specific to Ubuntu
-#          path: ~/.cache/pip
-#          # Look to see if there is a cache hit for the corresponding requirements file
-#          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-#          restore-keys: |
-#            ${{ runner.os }}-pip-
-#            ${{ runner.os }}-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
       - name: pthome 签到
+        id: pthome
+        env:
+          COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
-          python pthome.py
+         python pthome.py
+
+      - name: 360有钱 签到
+        id: 360youqian
+        env:
+          COOKIE: ${{secrets.360YOUQIAN_COOKIE}}
+        run: |
+          python 360youqian.py
+
+      - name: 生成任务报告
+        id: report
+        run: |
+          - echo "::set-output name=result::pthome：${{steps.pthome.outputs.result}}"
+          - echo "::set-output name=result::360youqian：${{steps.360youqian.outputs.result}}"
+
+      - name: 发送邮件通知
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.88.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: github action 任务报告
+          body: ${{steps.report.outputs.result}}
+          to: ${{secrets.MAIL_TO}}
+          from: github action
+          content_type: text/html
 
