@@ -28,10 +28,11 @@ def main():
     url = f'http://youqian.360.cn/task/finishtask?type=1&t={ts}'
     referer = 'http://youqian.360.cn/task.html'
     res = get(url, referer)
-    if res['errno'] == 12:
-        print(f"::set-output name=result::360有钱，未登录\n")
-        return
-    result += res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
+    if res:
+        if res['errno'] == 12:
+            print(f"::set-output name=result::360有钱，未登录\n")
+            return
+        result += res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
     print(f"::set-output name=result::{result}\n")
 
 
@@ -49,7 +50,7 @@ def get(url: str, referer: str):
         res = response.json()
         print(res)
     except requests.ConnectionError as e:
-        print('Error', e.args)  # 输出异常信息
+        print('Error:', e.args)  # 输出异常信息
     return res
 
 
