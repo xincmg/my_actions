@@ -3,7 +3,7 @@ import time
 
 import requests
 
-cookie = os.environ["360YOUQIAN_COOKIE"]
+cookie = os.environ["COOKIE"]
 
 
 def main():

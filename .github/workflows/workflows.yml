@@ -29,9 +29,9 @@ jobs:
          python pthome.py
 
       - name: 360有钱 签到
-        id: 360youqian
+        id: youqian
         env:
-          COOKIE: ${{secrets.360YOUQIAN_COOKIE}}
+          COOKIE: ${{secrets.YOUQIAN_COOKIE}}
         run: |
           python 360youqian.py
 
@@ -39,7 +39,7 @@ jobs:
         id: report
         run: |
           - echo "::set-output name=result::pthome：${{steps.pthome.outputs.result}}"
-          - echo "::set-output name=result::360youqian：${{steps.360youqian.outputs.result}}"
+          - echo "::set-output name=result::360有钱：${{steps.youqian.outputs.result}}"
 
       - name: 发送邮件通知
         uses: dawidd6/action-send-mail@v2

@@ -5,7 +5,7 @@ import requests
 
 
 def main():
-    cookie = os.environ["PTHOME_COOKIE"]
+    cookie = os.environ["COOKIE"]
     url = 'https://www.pthome.net/attendance.php'
     headers = {
         'Cookie': cookie,
