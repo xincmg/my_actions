@@ -8,15 +8,7 @@ cookie = os.environ["COOKIE"]
 
 def main():
     # 签到
-    ts = int(time.time() * 1000)
-    url = f'http://youqian.360.cn/sign/signQuery?t={ts}'
-    referer = 'http://youqian.360.cn/score.html'
-    res = get(url, referer)
-    if res['errno'] == 12:
-        print(f"::set-output name=result::360有钱，未登录\n")
-        return
-
-    # 查看积分
+    result = '360有钱签到：'
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/sign/sign?t={ts}'
     referer = 'http://youqian.360.cn/score.html'
@@ -24,10 +16,14 @@ def main():
     if res['errno'] == 12:
         print(f"::set-output name=result::360有钱，未登录\n")
         return
-    result = res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
-        'continous_day'] + '天\n'
+    if res['errno'] == 0:
+        result += res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
+            'continous_day'] + '天\n'
+    elif res['errno'] == 1:
+        result += '已经签到\n'
 
     # 安全盾签到
+    result += '安全盾签到：'
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/task/finishtask?type=1&t={ts}'
     referer = 'http://youqian.360.cn/task.html'
@@ -36,7 +32,8 @@ def main():
         print(f"::set-output name=result::360有钱，未登录\n")
         return
     result += res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
-    print(f"::set-output name=result::360有钱，{result}\n")
+    print(f"::set-output name=result::{result}\n")
+
 
 def get(url: str, referer: str):
     headers = {
