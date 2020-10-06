@@ -26,14 +26,16 @@ jobs:
         env:
           COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
-         python pthome.py
+#         python pthome.py
+        - echo "::set-output name=result::pthome"
 
       - name: 360有钱 签到
         id: youqian
         env:
           COOKIE: ${{secrets.YOUQIAN_COOKIE}}
         run: |
-          python 360youqian.py
+#          python 360youqian.py
+        - echo "::set-output name=result::360有钱"
 
       - name: 生成任务报告
         run: |
