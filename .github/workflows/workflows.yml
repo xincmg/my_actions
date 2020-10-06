@@ -36,10 +36,11 @@ jobs:
           python 360youqian.py
 
       - name: 生成任务报告
-        id: report
         run: |
-          - echo "::set-output name=result::"${{steps.pthome.outputs.result}}
-          - echo "::set-output name=result::"${{steps.youqian.outputs.result}}
+          - echo "::set-output name=result::${{steps.pthome.outputs.result}}"
+      - id: report
+        run: |
+          - echo "::set-output name=result::${{steps.youqian.outputs.result}}"
 
       - name: 发送邮件通知
         uses: dawidd6/action-send-mail@v2
