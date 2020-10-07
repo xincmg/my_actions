@@ -2,7 +2,7 @@ name: my actions
 
 on:
   push:
-    branches: main  
+    branches: main
   watch:
     types: [ started ]
 
@@ -28,22 +28,29 @@ jobs:
         env:
           COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
-          echo "::set-output name=result::pthome \n pthome test \n"
+          output=$(python pthome.py)
+          output="${output//'%'/'%25'}"
+          output="${output//$'\n'/'%0A'}"
+          output="${output//$'\r'/'%0D'}"
+          echo "::set-output name=result::$output"
 
       - name: 360有钱 签到
         id: youqian
         env:
           COOKIE: ${{secrets.YOUQIAN_COOKIE}}
-        run: 
-          echo "::set-output name=result::360有钱 \r\n youqian test \r\n"
+        run: |
+          output=$(python 360youqian.py)
+          output="${output//'%'/'%25'}"
+          output="${output//$'\n'/'%0A'}"
+          output="${output//$'\r'/'%0D'}"
+          echo "::set-output name=result::$output"
 
-      - name: 生成任务报告        
+      - name: 生成任务报告
         id: report
         run: |
           output="${{steps.pthome.outputs.result}} ${{steps.youqian.outputs.result}}"
           output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
-        
 
       - name: 发送邮件通知
         uses: dawidd6/action-send-mail@v2

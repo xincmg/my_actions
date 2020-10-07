@@ -5,7 +5,7 @@ import requests
 
 
 def main():
-    result='pthome签到：'
+    result = 'pthome签到：'
     cookie = os.environ["COOKIE"]
     url = 'https://www.pthome.net/attendance.php'
     headers = {
@@ -15,15 +15,14 @@ def main():
     }
     response = requests.get(url, headers=headers)
 
-    if response.text.find('<h1>未登录!</h1>')==-1:
-        dom=etree.HTML(response.text)
-        etree.strip_tags(dom,'tbody','b','p')
-        element=dom.xpath("//td[@class='embedded']/table/tr/td/text()")
+    if response.text.find('<h1>未登录!</h1>') == -1:
+        dom = etree.HTML(response.text)
+        etree.strip_tags(dom, 'tbody', 'b', 'p')
+        element = dom.xpath("//td[@class='embedded']/table/tr/td/text()")
         result += ''.join(element).strip()
     else:
-        result+='未登录'
-    print(f"::set-output name=result::{result}\n")
-
+        result += '未登录'
+    print(result)
 
 
 if __name__ == "__main__":

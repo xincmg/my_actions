@@ -14,7 +14,7 @@ def main():
     referer = 'http://youqian.360.cn/score.html'
     res = get(url, referer)
     if res['errno'] == 12:
-        print(f"::set-output name=result::360有钱，未登录\n")
+        print(result + "未登录")
         return
     if res['errno'] == 0:
         result += res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
@@ -30,10 +30,10 @@ def main():
     res = get(url, referer)
     if res:
         if res['errno'] == 12:
-            print(f"::set-output name=result::360有钱，未登录\n")
+            print(result + "未登录")
             return
         result += res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
-    print(f"::set-output name=result::{result}\n")
+    print(result)
 
 
 def get(url: str, referer: str):
