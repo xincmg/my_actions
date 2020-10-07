@@ -16,18 +16,16 @@ def main():
     res = get(url, referer)
     if res['errno'] == 12:
         result.append('未登录')
-        print('\n'.join(result))
-        return
-    if res['errno'] == 0:
+    elif res['errno'] == 0:
         try:
             info = res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
                 'continous_day'] + '天'
             result.append(info)
         except:
             result.append('json结构不符合预期')
-            result.append(str(res))
     elif res['errno'] == 1:
         result.append('已经签到')
+    result.append(str(res))
 
     # 安全盾签到
     result.append('')
@@ -39,10 +37,10 @@ def main():
     if res:
         if res['errno'] == 12:
             result.append('未登录')
-            print('\n'.join(result))
-            return
-        info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
-        result.append(info)
+        else:
+            info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
+            result.append(info)
+    result.append(str(res))
     print('\n'.join(result))
 
 
@@ -58,7 +56,6 @@ def get(url: str, referer: str):
     try:
         response = requests.get(url, headers=headers)
         res = response.json()
-        print(res)
     except requests.ConnectionError as e:
         print('Error:', e.args)  # 输出异常信息
     return res

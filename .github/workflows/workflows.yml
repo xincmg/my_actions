@@ -28,9 +28,6 @@ jobs:
           COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
           output=$(python pthome.py)
-#          output="${output//'%'/'%25'}"
-#          output="${output//$'\n'/'%0A'}"
-#          output="${output//$'\r'/'%0D'}"
           echo "::set-output name=result::$output"
 
       - id: youqian
