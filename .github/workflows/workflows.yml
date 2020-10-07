@@ -31,9 +31,6 @@ jobs:
           COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
           output=$(python pthome.py)
-          output="${output//'%'/'%25'}"
-          output="${output//$'\n'/'%0A'}"
-          output="${output//$'\r'/'%0D'}"
           echo "::set-output name=result::$output"
 
       - id: youqian
@@ -41,16 +38,13 @@ jobs:
           COOKIE: ${{secrets.YOUQIAN_COOKIE}}
         run: |
           output=$(python 360youqian.py)
-          output="${output//'%'/'%25'}"
-          output="${output//$'\n'/'%0A'}"
-          output="${output//$'\r'/'%0D'}"
           echo "::set-output name=result::$output"
 
       - name: 拼接输出字符串
         id: report
         run: |
-          output=${{steps.pthome.outputs.result}}"<br>"
-          output=$output${{steps.youqian.outputs.result}}"<br>"
+          output="${{steps.pthome.outputs.result}}<br>"
+          output=$output"${{steps.youqian.outputs.result}}<br>"
           output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
 
