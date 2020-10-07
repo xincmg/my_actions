@@ -41,7 +41,7 @@ jobs:
         id: report
         run: |
           output="${{steps.pthome.outputs.result}} ${{steps.youqian.outputs.result}}"
-          output="${output//$'\n'/'<br>'}"
+          output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
         
 
