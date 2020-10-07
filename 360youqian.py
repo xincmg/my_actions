@@ -8,32 +8,42 @@ cookie = os.environ["COOKIE"]
 
 def main():
     # 签到
-    result = '360有钱签到：'
+    result = []
+    result.append('360有钱签到：')
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/sign/sign?t={ts}'
     referer = 'http://youqian.360.cn/score.html'
     res = get(url, referer)
     if res['errno'] == 12:
-        print(result + "未登录")
+        result.append('未登录')
+        print('\n'.join(result))
         return
     if res['errno'] == 0:
-        result += res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
-            'continous_day'] + '天\n'
+        try:
+            info = res['errmsg'] + '，积分：' + res['data']['score_available'] + '，连续签到' + res['data']['user_info'][
+                'continous_day'] + '天'
+            result.append(info)
+        except:
+            result.append('json结构不符合预期')
+            result.append(str(res))
     elif res['errno'] == 1:
-        result += '已经签到\n'
+        result.append('已经签到')
 
     # 安全盾签到
-    result += '安全盾签到：'
+    result.append('')
+    result.append('安全盾签到：')
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/task/finishtask?type=1&t={ts}'
     referer = 'http://youqian.360.cn/task.html'
     res = get(url, referer)
     if res:
         if res['errno'] == 12:
-            print(result + "未登录")
+            result.append('未登录')
+            print('\n'.join(result))
             return
-        result += res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
-    print(result)
+        info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
+        result.append(info)
+    print('\n'.join(result))
 
 
 def get(url: str, referer: str):
