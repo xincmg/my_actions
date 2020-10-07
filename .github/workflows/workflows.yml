@@ -40,7 +40,7 @@ jobs:
       - name: 生成任务报告        
         id: report
         run: |
-          output=${{steps.pthome.outputs.result}} ${{steps.youqian.outputs.result}}
+          output="${{steps.pthome.outputs.result}} ${{steps.youqian.outputs.result}}"
           output="${output//'%'/'%25'}"
           output="${output//$'\n'/'%0A'}"
           output="${output//$'\r'/'%0D'}"
