@@ -23,32 +23,28 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: pthome 签到
-        id: pthome
+      - id: pthome
         env:
           COOKIE: ${{secrets.PTHOME_COOKIE}}
         run: |
           output=$(python pthome.py)
-          output="${output//'%'/'%25'}"
-          output="${output//$'\n'/'%0A'}"
-          output="${output//$'\r'/'%0D'}"
+#          output="${output//'%'/'%25'}"
+#          output="${output//$'\n'/'%0A'}"
+#          output="${output//$'\r'/'%0D'}"
           echo "::set-output name=result::$output"
 
-      - name: 360有钱 签到
-        id: youqian
+      - id: youqian
         env:
           COOKIE: ${{secrets.YOUQIAN_COOKIE}}
         run: |
           output=$(python 360youqian.py)
-          output="${output//'%'/'%25'}"
-          output="${output//$'\n'/'%0A'}"
-          output="${output//$'\r'/'%0D'}"
           echo "::set-output name=result::$output"
 
-      - name: 生成任务报告
+      - name: 拼接输出字符串
         id: report
         run: |
-          output="${{steps.pthome.outputs.result}} ${{steps.youqian.outputs.result}}"
+          output=${{steps.pthome.outputs.result}}"<br>"
+          output=$output${{steps.youqian.outputs.result}}"<br>"
           output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
 
