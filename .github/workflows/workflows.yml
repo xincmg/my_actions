@@ -42,6 +42,14 @@ jobs:
           output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
 
+      - id: elecfans
+        env:
+          COOKIE: ${{secrets.ELECFANS_COOKIE}}
+        run: |
+          output=$(python elecfans.py)
+          output="${output//$'\n'/<br>}"
+          echo "::set-output name=result::$output"
+
       - name: 拼接输出字符串
         id: report
         run: |

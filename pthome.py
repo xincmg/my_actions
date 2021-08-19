@@ -22,7 +22,7 @@ def main():
     else:
         result = '未登录'
     print('pthome签到：' + result)
-    print()
+    print('\n')
 
 
 if __name__ == "__main__":
