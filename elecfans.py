@@ -5,15 +5,16 @@ cookie = os.environ["COOKIE"]
 
 
 def main():
-    print("test")
     url = 'https://bbs.elecfans.com/home.php?mod=misc&ac=ajax&op=userDFM&uid=4726590'
-    referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'
-    text = []
-    text.append("电子发烧友签到：")
+    referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'    
     res = get(url, referer)
-    text.append(str(res))
-    text.append("")
-    print('\n'.join(text))
+
+    result = []
+    result.append("电子发烧友签到：")
+    result.append(str(res))
+    result.append("")
+
+    print('\n'.join(result))
 
 
 def get(url: str, referer: str):
@@ -33,4 +34,5 @@ def get(url: str, referer: str):
 
 
 if __name__ == "__main__":
+    print("main")
     main()
