@@ -26,6 +26,7 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+<<<<<<< HEAD
       # - id: pthome
       #   env:
       #     COOKIE: ${{secrets.PTHOME_COOKIE}}
@@ -41,6 +42,23 @@ jobs:
       #     output=$(python 360youqian.py)
       #     output="${output//$'\n'/<br>}"
       #     echo "::set-output name=result::$output"
+=======
+#       - id: pthome
+#         env:
+#           COOKIE: ${{secrets.PTHOME_COOKIE}}
+#         run: |
+#           output=$(python pthome.py)
+#           output="${output//$'\n'/<br>}"
+#           echo "::set-output name=result::$output"
+
+#       - id: youqian
+#         env:
+#           COOKIE: ${{secrets.YOUQIAN_COOKIE}}
+#         run: |
+#           output=$(python 360youqian.py)
+#           output="${output//$'\n'/<br>}"
+#           echo "::set-output name=result::$output"
+>>>>>>> 7bad3a4f2e42a62168bf7c95eda368ec60635651
 
       - id: elecfans
         env:
