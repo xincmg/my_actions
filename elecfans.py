@@ -1,12 +1,11 @@
 import os
 import requests
 
-# cookie = os.environ["COOKIE"]
-cookie = ""
+cookie = os.environ["COOKIE"]
 
 
 def main():
-    url = 'https://bbs.elecfans.com/home.php?mod=misc&ac=ajax&op=userDFM&uid=4726590'
+    url = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign&4726590&infloat=yes&handlekey=dsu_paulsign&inajax=1&ajaxtarget=fwin_content_dsu_paulsign'
     referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'
     res = get(url, referer)
 
@@ -23,17 +22,16 @@ def get(url: str, referer: str):
         'Cookie': cookie,
         'Referer': referer,
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
-        'content-type': 'application/json',
+        'x-requested-with': 'XMLHttpRequest'
     }
     res = {}
     try:
         response = requests.get(url, headers=headers)
-        res = response.json()
+        res = response.text
     except requests.ConnectionError as e:
         print('Error:', e.args)  # 输出异常信息
     return res
 
 
 if __name__ == "__main__":
-    print('main')
     main()
