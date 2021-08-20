@@ -1,19 +1,20 @@
 import os
-import requests 
+import requests
 
-# cookie=os.environ["COOKIE"]
-cookie=""
+cookie = os.environ["COOKIE"]
+
 
 def main():
-    uid='4726590'
-    url=f'https://bbs.elecfans.com/home.php?mod=misc&ac=ajax&op=userDFM&uid={uid}'
-    referer='https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'
-    text=[]
+    print("test")
+    url = 'https://bbs.elecfans.com/home.php?mod=misc&ac=ajax&op=userDFM&uid=4726590'
+    referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'
+    text = []
     text.append("电子发烧友签到：")
-    res= get(url,referer)
+    res = get(url, referer)
     text.append(str(res))
     text.append("")
     print('\n'.join(text))
+
 
 def get(url: str, referer: str):
     headers = {
@@ -29,6 +30,7 @@ def get(url: str, referer: str):
     except requests.ConnectionError as e:
         print('Error:', e.args)  # 输出异常信息
     return res
+
 
 if __name__ == "__main__":
     main()
