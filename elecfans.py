@@ -1,18 +1,19 @@
 import os
 import requests
 
-cookie = os.environ["COOKIE"]
+# cookie = os.environ["COOKIE"]
+cookie = ""
 
 
 def main():
     url = 'https://bbs.elecfans.com/home.php?mod=misc&ac=ajax&op=userDFM&uid=4726590'
-    referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'    
+    referer = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign'
     res = get(url, referer)
 
     result = []
-    result.append("电子发烧友签到：")
+    result.append('电子发烧友签到：')
     result.append(str(res))
-    result.append("")
+    result.append('')
 
     print('\n'.join(result))
 
@@ -34,5 +35,5 @@ def get(url: str, referer: str):
 
 
 if __name__ == "__main__":
-    print("main")
+    print('main')
     main()
