@@ -60,7 +60,7 @@ def main():
             text = elements[0].xpath('string(.)')
             result.append(text)
 
-    result.append('')
+    result.append('\n\n')
     print('\n'.join(result))
 
 

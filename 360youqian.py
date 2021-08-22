@@ -41,7 +41,7 @@ def main():
     #         info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
     #         result.append(info)
     result.append('安全盾签到：' + str(res))
-    result.append('')
+    result.append('\n\n')
     print('\n'.join(result))
 
 
