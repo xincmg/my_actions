@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root><![CDATA[<h3 class="flb">
+<em>每日签到</em>
+<span><a href="javascript:;" class="flbc" onclick="hideWindow('dsu_paulsign');" title="关闭">关闭</a></span>
+</h3>
+<form id="qiandao" method="post" action="plugin.php?id=dsu_paulsign:sign&amp;operation=qiandao&amp;infloat=1&amp;sign_as=1" onkeydown="if(event.keyCode==13){showWindow('qwindow', 'qiandao', 'post', '0');return false}">
+<div class="f_c" style="width:690px;margin:10px;">
+<h1 class="mt">您今天已经签到过了或者签到时间还未开始</h1>
+</div>
+<p class="o pns">
+<button type="button" class="btn-green" onclick="showWindow('qwindow', 'qiandao', 'post', '0');return false">点我签到!</button>
+</p>
+</form>]]></root>
