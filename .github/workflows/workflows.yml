@@ -50,12 +50,21 @@ jobs:
           output="${output//$'\n'/<br>}"
           echo "::set-output name=result::$output"
 
+      - id: arduinocn
+        env:
+          COOKIE: ${{secrets.ARDUINOCN_COOKIE}}
+        run: |
+          output=$(python arduinocn.py)
+          output="${output//$'\n'/<br>}"
+          echo "::set-output name=result::$output"
+
       - name: 拼接各任务输出字符串
         id: report
         run: |
           output="${{steps.pthome.outputs.result}}<br>"
           output=$output"${{steps.youqian.outputs.result}}<br>"
           output=$output"${{steps.elecfans.outputs.result}}<br>"
+          output=$output"${{steps.arduinocn.outputs.result}}<br>"
           echo "::set-output name=result::$output"
 
       - name: 发送邮件通知
