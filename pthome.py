@@ -14,15 +14,18 @@ def main():
     }
     response = requests.get(url, headers=headers)
 
+    result = []
+    result.append('pthome签到：')
     if response.text.find('<h1>未登录!</h1>') == -1:
         dom = etree.HTML(response.text)
         etree.strip_tags(dom, 'tbody', 'b', 'p')
         element = dom.xpath("//td[@class='embedded']/table/tr/td/text()")
-        result = ''.join(element).strip()
+        result .append(''.join(element).strip())
     else:
-        result = '未登录'
-    print('pthome签到：' + result)
-    print('\n')
+        result.append('未登录')
+
+    result.append('')
+    print('\n'.join(result))
 
 
 if __name__ == "__main__":
