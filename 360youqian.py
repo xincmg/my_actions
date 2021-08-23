@@ -25,7 +25,8 @@ def main():
     #         result.append('json结构不符合预期')
     # elif res['errno'] == 1:
     #     result.append('已经签到')
-    result.append("360有钱签到：" + str(res))
+    result.append("360有钱签到：")
+    result.append(str(res))
     result.append('')
 
     # 安全盾签到
@@ -40,7 +41,8 @@ def main():
     #     else:
     #         info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
     #         result.append(info)
-    result.append('安全盾签到：' + str(res))
+    result.append('安全盾签到：')
+    result.append(str(res))
     result.append('\n\n')
     print('\n'.join(result))
 
