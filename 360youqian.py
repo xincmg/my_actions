@@ -9,7 +9,7 @@ cookie = os.environ["COOKIE"]
 def main():
     # 签到
     result = []
-    # result.append('360有钱签到：')
+    result.append('360有钱签到：')
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/sign/sign?t={ts}'
     referer = 'http://youqian.360.cn/score.html'
@@ -25,12 +25,12 @@ def main():
     #         result.append('json结构不符合预期')
     # elif res['errno'] == 1:
     #     result.append('已经签到')
-    result.append("360有钱签到：")
+    # result.append("360有钱签到：")
     result.append(str(res))
     result.append('')
 
     # 安全盾签到
-    # result.append('安全盾签到：')
+    result.append('安全盾签到：')
     ts = int(time.time() * 1000)
     url = f'http://youqian.360.cn/task/finishtask?type=1&t={ts}'
     referer = 'http://youqian.360.cn/task.html'
@@ -40,10 +40,9 @@ def main():
     #         result.append('未登录')
     #     else:
     #         info = res['errmsg'] + '，安全盾：' + res['data']['num'] + '个'
-    #         result.append(info)
-    result.append('安全盾签到：')
+    #         result.append(info)    
     result.append(str(res))
-    result.append('\n\n')
+    result.append('')
     print('\n'.join(result))
 
 

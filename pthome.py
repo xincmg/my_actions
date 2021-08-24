@@ -24,7 +24,8 @@ def main():
     else:
         result.append('未登录')
 
-    result.append('\n\n')
+    result.append('')
+    result.append('')
     print('\n'.join(result))
 
 

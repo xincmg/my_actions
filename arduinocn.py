@@ -56,8 +56,8 @@ def main():
         if len(elements):
             text = elements[0].xpath('text()')[0].strip()
             result.append(text)
-
-    result.append('\n\n')
+            
+    result.append('')
     print('\n'.join(result))
 
 

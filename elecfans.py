@@ -9,9 +9,6 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
     'x-requested-with': 'XMLHttpRequest',
     'Referer': 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign',
-    # 'Host': 'bbs.elecfans.com',
-    # 'Accept-Encoding': 'gzip, deflate, br',
-    # 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8'
 }
 _session = requests.Session()
 
@@ -39,7 +36,7 @@ def main():
 
     # post data
     if len(formhash) > 0:
-        result.append(f'formhash is {formhash}')
+        # result.append(f'formhash is {formhash}')
         url = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1'
         obj = {
             'formhash': formhash,
@@ -48,7 +45,6 @@ def main():
             'todaysay': '',
             'fastreply': '0'
         }
-        # headers['content-type'] = 'application/x-www-form-urlencoded'
         response = _session.post(
             url=url, data=obj, headers=headers)
         # file = open(file='result.txt', encoding='utf-8', mode='w+')
@@ -58,9 +54,9 @@ def main():
         elements = dom.xpath('//body/div[@id="wp"]/div/div/div')
         if len(elements):
             text = elements[0].xpath('string(.)')
-            result.append(text)
+            result.append("'"+text+"'")
 
-    result.append('\n\n')
+    result.append('')
     print('\n'.join(result))
 
 
