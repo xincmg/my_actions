@@ -53,8 +53,9 @@ def main():
         dom = etree.HTML(response.text)
         elements = dom.xpath('//body/div[@id="wp"]/div/div/div')
         if len(elements):
-            text = elements[0].xpath('string(.)')
-            result.append("'"+text+"'")
+            # text = elements[0].xpath('string(.)')
+            text = ''.join(elements[0].xpath('//text()'))
+            result.append(text)
 
     result.append('')
     print('\n'.join(result))
