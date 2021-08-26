@@ -53,7 +53,7 @@ def main():
         response = _session.post(
             url=url,
             data=obj,
-            cookies=cookie,
+            headers=headers,
             # verify=False
         )
 
