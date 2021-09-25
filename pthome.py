@@ -29,6 +29,5 @@ def main():
     print('\n'.join(result))
 
 
-if __name__ == "__main__":
-    # 'Cookie': 'c_secure_uid=MTE2NTg0; c_secure_pass=f99543af6063c1fad5110dbf5c73e874; c_secure_ssl=eWVhaA%3D%3D; c_secure_tracker_ssl=eWVhaA%3D%3D; c_secure_login=bm9wZQ%3D%3D; __cfduid=dea69407abd185e7cc8234df543a770cf1599732509',
+if __name__ == "__main__":    
     main()
