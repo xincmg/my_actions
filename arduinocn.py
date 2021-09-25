@@ -2,7 +2,6 @@ import os
 from lxml import etree
 import requests
 
-# cookie = 'EFmf_2132_saltkey=g40c8Ecc;EFmf_2132_auth=f594Z4jKbkONwsygZHh213FcYub8D0uA7twitR60z25IZ2VFsrBiwBBciMIlfx6N1D3%2F8hcbqdfC48IIaohNxhHBjs8;'
 cookie = os.environ["COOKIE"]
 headers = {
     'Cookie': cookie,
