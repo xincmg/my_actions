@@ -5,7 +5,6 @@ import requests
 uid='4726590'
 # uid = '4757904'
 cookie = os.environ["COOKIE"]
-# cookie_text = 'rlhx_e495_saltkey=D2ZhbEiZ;auth_bbs=RqgDJWIcHNBNsT9lqXqS9r4Vm%252BnoJM6MI6EjaKiSaJ9%252Bt6QFqJJbMoiD4ySfyL%252F7CCv5kuGBntDvK3sk2kQ5HXcl8hWSVhyJkratjUVB5MoSLDivt98hgvgrQoj66emCarma2M0GMaoPE%252B9EJr4ekm5pPBU1zpihBsyKVGdzM4HTr8R5dmr0tTliGcZFtRM%252Fe7n17Z4Yz4q0qhReKKcg7G%252FtMp6kDBlq%252FpQC0yvRmFceKCmc26GRsxxS1%252B750MIoZ7I5qS4UtOpZDQeXm%252FwF4vf05qs6IArhbn5OkvBW%252BGYdMdzgLLXg5osGo1W3MOrEVufSNw%252BVbtVjvNvgCPqO7UH5HHePGpxWYtSiAuzq1x1qbpvy4bFwwIX5bzLh9%252ByIs7Wcd%252BqCwD%252BqGVTowfwlLLSOb6rJpPr0cKlkr3Q5rQqgI9kMTsXuAQt%252BkX14StFoffZmKt3%252Bdq3ovSoq5gWkQSKEAyvE7tyXpt3zUpNDS1P8HRG%252Bfqm5OByKoWkn4zsp;'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',    
     'x-requested-with': 'XMLHttpRequest',
