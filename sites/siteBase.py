@@ -3,7 +3,7 @@ from requests.adapters import HTTPAdapter
 
 
 class SiteBase:
-
+    '''子类需要自己实现login(), signin(), report()三个方法'''
     def __init__(self, flag, user):        
         self._user = user
         self._flag = flag
