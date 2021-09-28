@@ -35,9 +35,6 @@ jobs:
         id: report
         run: |
           output="${{steps.run_mysignin.outputs.result}}<br><br>"
-          # output=$output"${{steps.youqian.outputs.result}}<br><br>"
-          # output=$output"${{steps.elecfans.outputs.result}}<br><br>"
-          # output=$output"${{steps.arduinocn.outputs.result}}<br><br>"
           echo "::set-output name=result::$output"
 
       - name: 发送邮件通知
