@@ -50,7 +50,7 @@ class Youqian(SiteBase):
 
     def report(self, response: Response):
         jsons = response.json()
-        self._result.append(json.dumps(jsons)+'\n')
+        self._result.append(str(jsons)+'\n')
 
     def run(self):
         self.login()
