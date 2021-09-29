@@ -4,6 +4,7 @@ from sites.siteBase import SiteBase
 
 class Oshwhub(SiteBase):
     def login(self):
+        # cookie 很快失效，需要使用密码登录
         self.session.headers.update({
             'Cookie': self.user.token,
         })
