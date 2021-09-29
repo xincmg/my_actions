@@ -4,10 +4,10 @@ from importlib import import_module
 
 from user import User
 
-# account_text=os.environ["ACCOUNTS"]
-file = open('.private\\account.txt', mode='r')
-account_text = file.read()
-file.close()
+account_text=os.environ["ACCOUNTS"]
+# file = open('.private\\account.txt', mode='r')
+# account_text = file.read()
+# file.close()
 
 
 def run():
