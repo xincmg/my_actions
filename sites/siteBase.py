@@ -4,7 +4,8 @@ from requests.adapters import HTTPAdapter
 
 class SiteBase:
     '''子类需要自己实现login(), signin(), report()三个方法'''
-    def __init__(self, flag, user):        
+    def __init__(self, flag, user):
+        self._timeout = 5
         self._user = user
         self._flag = flag
         self._state = 'running...'
@@ -14,6 +15,13 @@ class SiteBase:
         self._session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
         })
+    @property
+    def timeout(self):
+        return self._timeout
+
+    @timeout.setter
+    def timeout(self, sec):
+        self._timeout = sec
 
     @property
     def flag(self):
@@ -57,3 +65,19 @@ class SiteBase:
         if response is None:
             return
         self.report(response)
+
+    def get(self,url):
+        try:
+            response = self.session.get(url,timeout=self.timeout)
+        except requests.RequestException as e:
+            self.state = str(e)
+            return 
+        return response
+
+    def post(self,url,data):
+        try:
+            response = self.session.post(url=url, data=data, timeout=self.timeout)
+        except requests.RequestException as e:
+            self.state = str(e)
+            return 
+        return response
