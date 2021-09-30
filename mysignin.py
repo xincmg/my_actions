@@ -2,12 +2,13 @@ import json
 import os
 from importlib import import_module
 
+from helper import readtext
 from user import User
 
-account_text=os.environ["ACCOUNTS"]
-# file = open('.private\\account.txt', mode='r')
-# account_text = file.read()
-# file.close()
+try:
+    account_text=os.environ["ACCOUNTS"]
+except:
+    account_text = readtext('.private\\account.json')
 
 
 def run():

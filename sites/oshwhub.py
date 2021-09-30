@@ -1,27 +1,54 @@
-import requests
+
+
+from helper import md5, output
+from lxml import html
+
 from sites.siteBase import SiteBase
 
 
 class Oshwhub(SiteBase):
-    def login(self):
-        # cookie 很快失效，需要使用密码登录
-        self.session.headers.update({
-            'Cookie': self.user.token,
-        })
+    def login(self) -> bool:
+        url = 'https://passport.szlcsc.com/login'
+        body = self._get_form_data()
+        if not body:
+            return False
+        return self.post(url, data=body)
 
     def signin(self):
-        self.session.headers.update({
-            'referer': 'https://oshwhub.com/sign_in',
+        response = self.get('https://oshwhub.com/sign_in')
+        output('.private\\login_result.html', response.text)
+        headers = {
             'x-requested-with': 'XMLHttpRequest'
-        })
+        }
         url = 'https://oshwhub.com/api/user/sign_in'
-        try:
-            response = self.session.post(url, timeout=5)
-        except requests.RequestException as e:
-            self.state = str(e)
-            return None
+        response = self.post(url, headers=headers)
         return response
 
     def report(self, response):
         jsons = response.json()
         self.state = str(jsons)
+
+    def _get_form_data(self) -> dict:
+        url = 'https://passport.szlcsc.com/login'
+        response = self.get(url)
+        dom = html.document_fromstring(response.text)
+        form = dom.get_element_by_id('fm1')
+        body = []
+        for field in form.inputs:
+            if not field.name:
+                continue
+            # print(field.name, field.value)
+            item = (field.name, field.value if field.value else '')
+            body.append(item)
+        body = dict(body)
+        body['loginUrl'] = url
+        body['username'] = self.user.name
+        body['password'] = md5(self.user.token)
+        del body['rememberPwd']
+        # print('='*60)
+        # print(json.dumps(body, indent=4))
+        # print('='*60)
+        if body['showCheckCodeVal'] == 'true':
+            output('.private\\login_captcha.html', response.text)
+            self.state = '请拖动滑块完成验证！'
+        return body
