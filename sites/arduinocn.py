@@ -10,6 +10,7 @@ class Arduinocn(SiteBase):
         self.session.headers.update({
             'Cookie': self.user.token,
         })
+        return True
 
     def _get_formhash(self):
         url = 'https://www.arduino.cn/plugin.php?id=dsu_paulsign:sign'
