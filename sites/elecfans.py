@@ -10,12 +10,6 @@ from sites.siteBase import SiteBase
 
 class Elecfans(SiteBase):
 
-    # def login(self):
-    #     self.session.headers.update({
-    #         'Cookie': self.user.token,
-    #     })
-    #     return True
-
     def login(self) -> bool:
         headers = {
             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
