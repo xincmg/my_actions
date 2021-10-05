@@ -11,6 +11,7 @@ class Pthome(SiteBase):
         self.session.headers.update({
             'Cookie': self.user.token,
         })
+        return True
 
     def signin(self):
         url = 'https://www.pthome.net/attendance.php'

@@ -65,6 +65,8 @@ class SiteBase:
         if not self.login():
             return
         response = self.signin()
+        if not response:
+            return
         self.report(response)
 
     def get(self, url, **kwargs):

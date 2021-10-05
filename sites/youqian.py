@@ -17,6 +17,7 @@ class Youqian(SiteBase):
         self.session.headers.update({
             'Cookie': self.user.token,
         })
+        return True
 
     def signin1(self):
         '''360有钱签到'''

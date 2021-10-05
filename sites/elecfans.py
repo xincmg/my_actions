@@ -10,6 +10,7 @@ class Elecfans(SiteBase):
         self.session.headers.update({
             'Cookie': self.user.token,
         })
+        return True
 
     def _get_formhash(self):
         self.session.headers.update({
