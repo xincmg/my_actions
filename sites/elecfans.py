@@ -1,16 +1,39 @@
+import json
+import random
+import time
+
 import requests
-from lxml import etree
+from lxml import etree, html
 
 from sites.siteBase import SiteBase
 
 
 class Elecfans(SiteBase):
 
-    def login(self):
-        self.session.headers.update({
-            'Cookie': self.user.token,
-        })
-        return True
+    # def login(self):
+    #     self.session.headers.update({
+    #         'Cookie': self.user.token,
+    #     })
+    #     return True
+
+    def login(self) -> bool:
+        headers = {
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'x-requested-with': 'XMLHttpRequest'
+        }
+        url = 'https://passport.elecfans.com/login/dologin.html?referer=https://bbs.elecfans.com/default.php?view=recommend'
+        body = self._get_form_data()
+        if not body:
+            return False
+        response = self.post(url, data=body, headers=headers)
+        json = response.json()
+        if json['msg'] == '登录成功':
+            for url in json['data']['syncurl']:
+                if url.find('bbs.elecfans.com') > -1:
+                    self.get(url)
+                    return True
+        else:
+            return False
 
     def _get_formhash(self):
         self.session.headers.update({
@@ -74,3 +97,29 @@ class Elecfans(SiteBase):
         if len(elements):
             text = elements[0].xpath('string(.)')
             self.state = text  # 保存签到结果
+
+    def _get_form_data(self) -> dict:
+        url = 'https://passport.elecfans.com/login?referer=https://bbs.elecfans.com/default.php?view=recommend&siteid=4&scene=bbspage&account='
+        response = self.get(url)
+        # print(response.text)
+        dom = html.document_fromstring(response.text)
+        form = dom.find_class('g-hide ui-form J_pwd_login J_sso_valid')
+        # print(form[0])
+        body = []
+        for field in form[0].inputs:
+            if not field.name:
+                continue
+            # print(field.name, field.value)
+            item = (field.name, field.value if field.value else '')
+            body.append(item)
+        appkey = 'FFFF0000000001784D08'
+        scene = 'login'
+        t = int(round(time.time()*1000))
+        token = ':'.join([appkey, str(t), str(random.random())])
+        body = dict(body)
+        body['account'] = self.user.name
+        body['password'] = self.user.token
+        body['token'] = token
+        body['aliscene'] = scene
+        # print(json.dumps(body, indent=4))
+        return body
