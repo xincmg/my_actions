@@ -30,7 +30,7 @@ class Oshwhub(SiteBase):
     def report(self, response):
         jsons = response.json()
         self.state = str(jsons)
-        if self._threeday == 1:
+        if self._threeday == '1':
             jsons = self._getTreeDayGift().json()
             self.state += str(jsons)
 
