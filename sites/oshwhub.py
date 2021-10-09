@@ -16,10 +16,12 @@ class Oshwhub(SiteBase):
 
     def signin(self):
         response = self.get('https://oshwhub.com/sign_in')
-        output('.private\\login_result.html', response.text)
+        # output('.private\\login_result.html', response.text)
         dom = html.document_fromstring(response.text)
         self._threeday = dom.xpath(
             '//div[@id="home-content"]//div[@class="three-day"]/@data-status')[0]
+        self._sevenday = dom.xpath(
+            '//div[@id="home-content"]//div[@class="seven-day"]/@data-status')[0]
         headers = {
             'x-requested-with': 'XMLHttpRequest'
         }
@@ -33,6 +35,26 @@ class Oshwhub(SiteBase):
         if self._threeday == '1':
             jsons = self._getTreeDayGift().json()
             self.state += str(jsons)
+        if self._sevenday == '1':
+            jsons=self._getSevenDayGift().json()
+            self.state += str(jsons)
+
+    def _getSevenDayGift(self):
+        url = 'https://oshwhub.com/api/user/sign_in/getSevenDayGift'
+        data=self._getUuidData()
+        self.post(url, data=data, headers={
+            'x-requested-with': 'XMLHttpRequest'
+        })
+
+    def _getUuidData(self):
+        url = 'https://oshwhub.com/api/user/sign_in/getUnbrokenGiftInfo'
+        res = self.get(url, headers={
+            'x-requested-with': 'XMLHttpRequest'
+        }).json()
+        return {
+            'gift_uuid': res['result']['sevenDay']['uuid'],
+            'coupon_uuid': res['result']['sevenDay']['coupon_uuid'],
+        }
 
     def _getTreeDayGift(self):
         url = 'https://oshwhub.com/api/user/sign_in/getTreeDayGift'
