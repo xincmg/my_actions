@@ -6,7 +6,7 @@ from helper import readtext
 from user import User
 
 try:
-    account_text=os.environ["ACCOUNTS"]
+    account_text = os.environ["ACCOUNTS"]
 except:
     account_text = readtext('.private\\account.json')
 
@@ -29,7 +29,10 @@ def run():
             print(e)
             continue
         site = obj(flag, user)
-        site.run()
+        try:
+            site.run()
+        except:
+            pass
         result.append(site.result)
     print('\n'.join(result))
 
