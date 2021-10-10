@@ -17,15 +17,13 @@ class Elecfans(SiteBase):
         }
         url = 'https://passport.elecfans.com/login/dologin.html?referer=https://bbs.elecfans.com/default.php?view=recommend'
         body = self._get_form_data()
-        if not body:
-            return False
         response = self.post(url, data=body, headers=headers)
         json = response.json()
         if json['msg'] == '登录成功':
             for url in json['data']['syncurl']:
                 if url.find('bbs.elecfans.com') > -1:
                     self.get(url)
-                    return True
+            return True
         else:
             return False
 
@@ -36,13 +34,7 @@ class Elecfans(SiteBase):
             'Host': 'bbs.elecfans.com',
         })
         url = f'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign&{self.user.name}&infloat=yes&handlekey=dsu_paulsign&inajax=1&ajaxtarget=fwin_content_dsu_paulsign'
-        try:
-            response = self.session.get(url, timeout=5)
-        except requests.RequestException as e:
-            self.state = str(e)
-            return None
-
-        # formhash = ''
+        response = self.get(url)
         if response.text.find('<h1>未登录!</h1>') >= 0:
             self.state = '未登录'
         elif response.text.find('<h1 class="mt">您今天已经签到过了或者签到时间还未开始</h1>') >= 0:
@@ -56,10 +48,7 @@ class Elecfans(SiteBase):
 
     def signin(self):
         formhash = self._get_formhash()
-        if not formhash:
-            return
         # post data
-
         url = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1'
         obj = {
             'formhash': formhash,
@@ -68,29 +57,26 @@ class Elecfans(SiteBase):
             'todaysay': '',
             'fastreply': '0'
         }
-        # self.session.headers.update({'content-type':'application/x-www-form-urlencoded'})
         headers = {
             'content-type': 'application/x-www-form-urlencoded'
         }
-        try:
-            response = self.session.post(
-                url=url,
-                data=obj,
-                headers=headers,
-            )
-        except requests.RequestException as e:
-            self.state = str(e)
-            return
-
+        response = self.post(url=url,
+                             data=obj,
+                             headers=headers)
         return response
+
+    def hqchip_signin(self):
+        url = 'https://www.hqchip.com/exchange/signin'
+        return self.post(url, headers={
+            'x-requested-with': 'XMLHttpRequest',
+        })
 
     def report(self, response):
         # 解析结果
         dom = etree.HTML(response.text.replace('\r\n', ''))
         elements = dom.xpath('//body/div[@id="wp"]/div/div/div')
-        if len(elements):
-            text = elements[0].xpath('string(.)')
-            self.state = text  # 保存签到结果
+        text = elements[0].xpath('string(.)')
+        self.state = text  # 保存签到结果
 
     def _get_form_data(self) -> dict:
         url = 'https://passport.elecfans.com/login?referer=https://bbs.elecfans.com/default.php?view=recommend&siteid=4&scene=bbspage&account='
@@ -117,3 +103,12 @@ class Elecfans(SiteBase):
         body['aliscene'] = scene
         # print(json.dumps(body, indent=4))
         return body
+
+    def run(self):
+        if not self.login():
+            return
+        res = self.signin()
+        self.report(res)
+        
+        json = self.hqchip_signin().json()
+        self.state += str(json)
