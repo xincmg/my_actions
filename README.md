@@ -1,10 +1,19 @@
 ## README.md
 
-**电子发烧友关键cookie：**  
-rlhx_e495_saltkey=  
-auth_bbs=  
+**账号格式**
 
+```json
+{
+    {
+        "flag": "ClassName1",
+        "uid": "账号1",
+        "token": "cookie"
+    },
+    {
+        "flag": "ClassName2",
+        "uid": "账号2",
+        "token": "密码"
+    }
+}
 
-**arduino中文社区关键cookie：**  
-EFmf_2132_saltkey=  
-EFmf_2132_auth=  
+```
