@@ -42,7 +42,7 @@ class Oshwhub(SiteBase):
     def _getSevenDayGift(self):
         url = 'https://oshwhub.com/api/user/sign_in/getSevenDayGift'
         data=self._getUuidData()
-        self.post(url, data=data, headers={
+        return self.post(url, data=data, headers={
             'x-requested-with': 'XMLHttpRequest'
         })
 
