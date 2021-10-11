@@ -21,7 +21,7 @@ class Elecfans(SiteBase):
         json = response.json()
         if json['msg'] == '登录成功':
             for url in json['data']['syncurl']:
-                if url.find('bbs.elecfans.com') > -1:
+                if url.find('bbs.elecfans.com') > -1 or url.find('www.hqchip.com') > -1:
                     self.get(url)
             return True
         else:
