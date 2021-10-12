@@ -67,9 +67,13 @@ class Elecfans(SiteBase):
 
     def hqchip_signin(self):
         url = 'https://www.hqchip.com/exchange/signin'
-        return self.post(url, headers={
+        res=self.post(url, headers={
             'x-requested-with': 'XMLHttpRequest',
+            'referer': 'https://www.hqchip.com/exchange.html'
         })
+        print(res)
+        print(res.text)
+        return res
 
     def report(self, response):
         # 解析结果
