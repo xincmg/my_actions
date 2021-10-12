@@ -71,8 +71,6 @@ class Elecfans(SiteBase):
             'x-requested-with': 'XMLHttpRequest',
             'referer': 'https://www.hqchip.com/exchange.html'
         })
-        print(res)
-        print(res.text)
         return res
 
     def report(self, response):
