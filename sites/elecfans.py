@@ -12,7 +12,6 @@ class Elecfans(SiteBase):
 
     def login(self) -> bool:
         headers = {
-            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'x-requested-with': 'XMLHttpRequest'
         }
         url = 'https://passport.elecfans.com/login/dologin.html?referer=https://bbs.elecfans.com/default.php?view=recommend'
@@ -20,12 +19,12 @@ class Elecfans(SiteBase):
         response = self.post(url, data=body, headers=headers)
         json = response.json()
         if json['msg'] == '登录成功':
+            self._tokens = json['data']['syncurl']            
             for url in json['data']['syncurl']:
-                if url.find('bbs.elecfans.com') > -1 or url.find('www.hqchip.com') > -1:
+                if url.find('bbs.elecfans.com') > -1:
                     self.get(url)
-            return True
-        else:
-            return False
+                    return True
+        return False
 
     def _get_formhash(self):
         self.session.headers.update({
@@ -46,7 +45,7 @@ class Elecfans(SiteBase):
                 return elements[0].xpath('@value')[0]
         # return formhash
 
-    def signin(self):
+    def signin(self):        
         formhash = self._get_formhash()
         # post data
         url = 'https://bbs.elecfans.com/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&sign_as=1'
@@ -64,14 +63,6 @@ class Elecfans(SiteBase):
                              data=obj,
                              headers=headers)
         return response
-
-    def hqchip_signin(self):
-        url = 'https://www.hqchip.com/exchange/signin'
-        res=self.post(url, headers={
-            'x-requested-with': 'XMLHttpRequest',
-            'referer': 'https://www.hqchip.com/exchange.html'
-        })
-        return res
 
     def report(self, response):
         # 解析结果
@@ -105,12 +96,3 @@ class Elecfans(SiteBase):
         body['aliscene'] = scene
         # print(json.dumps(body, indent=4))
         return body
-
-    def run(self):
-        if not self.login():
-            return
-        res = self.signin()
-        self.report(res)
-        
-        json = self.hqchip_signin().json()
-        self.state += str(json)
