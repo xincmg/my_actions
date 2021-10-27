@@ -17,11 +17,11 @@ class Oshwhub(SiteBase):
     def signin(self):
         response = self.get('https://oshwhub.com/sign_in')
         # output('.private\\login_result.html', response.text)
-        # dom = html.document_fromstring(response.text)
-        # self._threeday = dom.xpath(
-        #     '//div[@id="home-content"]//div[@class="three-day"]/@data-status')[0]
-        # self._sevenday = dom.xpath(
-        #     '//div[@id="home-content"]//div[@class="seven-day"]/@data-status')[0]
+        dom = html.document_fromstring(response.text)
+        self._threeday = dom.xpath(
+            '//div[@id="home-content"]//div[@class="three-day"]/@data-status')[0]
+        self._sevenday = dom.xpath(
+            '//div[@id="home-content"]//div[@class="seven-day"]/@data-status')[0]
         headers = {
             'x-requested-with': 'XMLHttpRequest'
         }
@@ -32,10 +32,10 @@ class Oshwhub(SiteBase):
     def report(self, response):
         jsons = response.json()
         self.state = str(jsons)
-        if jsons['weekCount']==3:
+        if jsons['result']['weekCount'] == 3 or self._threeday == '1':
             jsons = self._getTreeDayGift().json()
             self.state += str(jsons)
-        if jsons['weekCount']==7:
+        if jsons['result']['weekCount'] == 7 or self._sevenday == '1':
             jsons=self._getSevenDayGift().json()
             self.state += str(jsons)
 
