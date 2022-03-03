@@ -32,16 +32,37 @@ class Oshwhub(SiteBase):
     def report(self, response):
         jsons = response.json()
         self.state = str(jsons)
+        jsons = self._like().json()
+        self.state += str(jsons)
+        jsons = self._star().json()
+        self.state += str(jsons)
         if jsons['result']['weekCount'] == 3 or self._threeday == '1':
             jsons = self._getTreeDayGift().json()
             self.state += str(jsons)
         if jsons['result']['weekCount'] == 7 or self._sevenday == '1':
-            jsons=self._getSevenDayGift().json()
+            jsons = self._getSevenDayGift().json()
             self.state += str(jsons)
+
+    def _like(self):
+        headers = {
+            'x-requested-with': 'XMLHttpRequest'
+        }
+        self.post(
+            'https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unlike', headers)
+        return self.post('https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/like', headers)
+
+    def _star(self):
+        headers = {
+            'x-requested-with': 'XMLHttpRequest'
+        }
+        self.post(
+            'https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unstar', headers)
+
+        return self.post('https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/star', headers)
 
     def _getSevenDayGift(self):
         url = 'https://oshwhub.com/api/user/sign_in/getSevenDayGift'
-        data=self._getUuidData()
+        data = self._getUuidData()
         return self.post(url, data=data, headers={
             'x-requested-with': 'XMLHttpRequest'
         })
