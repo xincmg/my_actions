@@ -12,7 +12,7 @@ class Oshwhub(SiteBase):
         body = self._get_form_data()
         if not body:
             return False
-        return self.post(url, data=body)
+        return self.post(url=url, data=body)
 
     def signin(self):
         response = self.get('https://oshwhub.com/sign_in')
@@ -26,50 +26,57 @@ class Oshwhub(SiteBase):
             'x-requested-with': 'XMLHttpRequest'
         }
         url = 'https://oshwhub.com/api/user/sign_in'
-        response = self.post(url, headers=headers)
+        response = self.post(url=url, headers=headers)
         return response
 
     def report(self, response):
         jsons = response.json()
         self.state = str(jsons)
-        jsons = self._like().json()
-        self.state += str(jsons)
-        jsons = self._star().json()
-        self.state += str(jsons)
-        if jsons['result']['weekCount'] == 3 or self._threeday == '1':
+        weekcount=0
+        if jsons.get('result') is not None:
+            weekcount = jsons['result'].get('weekCount')
+        if weekcount == 3 or self._threeday == '1':
             jsons = self._getTreeDayGift().json()
             self.state += str(jsons)
-        if jsons['result']['weekCount'] == 7 or self._sevenday == '1':
+        if weekcount == 7 or self._sevenday == '1':
             jsons = self._getSevenDayGift().json()
             self.state += str(jsons)
+
+        jsons = self._like().json()
+        # print(str(jsons))
+        self.state += str(jsons)
+
+        jsons = self._star().json()
+        # print(str(jsons))
+        self.state += str(jsons)
 
     def _like(self):
         headers = {
             'x-requested-with': 'XMLHttpRequest'
         }
         self.post(
-            'https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unlike', headers)
-        return self.post('https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/like', headers)
+            url='https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unlike', headers=headers)
+        return self.post(url='https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/like', headers=headers)
 
     def _star(self):
         headers = {
             'x-requested-with': 'XMLHttpRequest'
         }
         self.post(
-            'https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unstar', headers)
+            url='https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/unstar', headers=headers)
 
-        return self.post('https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/star', headers)
+        return self.post(url='https://oshwhub.com/api/projects/5089e537f97d4be1a13252fb120f9962/star', headers=headers)
 
     def _getSevenDayGift(self):
         url = 'https://oshwhub.com/api/user/sign_in/getSevenDayGift'
         data = self._getUuidData()
-        return self.post(url, data=data, headers={
+        return self.post(url=url, data=data, headers={
             'x-requested-with': 'XMLHttpRequest'
         })
 
     def _getUuidData(self):
         url = 'https://oshwhub.com/api/user/sign_in/getUnbrokenGiftInfo'
-        res = self.get(url, headers={
+        res = self.get(url=url, headers={
             'x-requested-with': 'XMLHttpRequest'
         }).json()
         return {
@@ -82,7 +89,7 @@ class Oshwhub(SiteBase):
         headers = {
             'x-requested-with': 'XMLHttpRequest'
         }
-        return self.get(url, headers=headers)
+        return self.get(url=url, headers=headers)
 
     def _get_form_data(self) -> dict:
         url = 'https://passport.szlcsc.com/login'

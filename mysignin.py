@@ -18,8 +18,10 @@ def run():
         name = account['uid']
         token = account['token']
         flag = account["flag"]
-        if not name or not token or not flag:
+        if not name or not token or not flag:            
             continue
+        # if flag != 'Oshwhub':
+        #     continue
         user = User(name, token)
         # 导入类
         try:
@@ -31,8 +33,9 @@ def run():
         site = obj(flag, user)
         try:
             site.run()
-        except:
-            pass
+        except(Exception) as e:
+            print(e)
+            # pass
         result.append(site.result)
     print('\n'.join(result))
 
