@@ -15,15 +15,19 @@ class Elecfans(SiteBase):
             'x-requested-with': 'XMLHttpRequest'
         }
         url = 'https://passport.elecfans.com/login/dologin.html?referer=https://bbs.elecfans.com/default.php?view=recommend'
+        url = 'https://passport.elecfans.com/login/dologin.html?referer=https://bbs.elecfans.com/'
         body = self._get_form_data()
         response = self.post(url, data=body, headers=headers)
         json = response.json()
         if json['msg'] == '登录成功':
             self._tokens = json['data']['syncurl']            
             for url in json['data']['syncurl']:
-                if url.find('bbs.elecfans.com') > -1:
-                    self.get(url)
-                    return True
+                self.get(url)
+                # if url.find('bbs.elecfans.com') > -1:
+                #     self.get(url)
+                #     return True
+            self.get('https://bbs.elecfans.com/')
+            return True
         return False
 
     def _get_formhash(self):
