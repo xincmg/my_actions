@@ -20,8 +20,12 @@ def run():
         flag = account["flag"]
         if not name or not token or not flag:            
             continue
-        # if flag != 'Oshwhub':
+
+        # 单独测试一个网站
+        # if flag != 'Hdarea':
         #     continue
+        # end
+        
         user = User(name, token)
         # 导入类
         try:
