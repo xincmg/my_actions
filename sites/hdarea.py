@@ -14,7 +14,7 @@ class Hdarea(SiteBase):
         return True
 
     def signin(self):
-        url = 'https://www.hdarea.co/sign_in.php'
+        url = 'https://www.hdarea.club/sign_in.php'
         data = {'action' : 'sign_in'}
         try:
             response = self.session.post(url, data=data, timeout=5)
